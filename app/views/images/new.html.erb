@@ -1,0 +1,30 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="card-title text-center mb-0">Upload Image</h1>
+                </div>
+                <div class="card-body">
+                    <%= form_with model: @image, data: { controller: "image-preview" }, html: { class: "needs-validation", novalidate: true } do |form| %>
+                    <div class="mb-3">
+                        <%= form.label :file, "Choose an image", class: "form-label" %>
+                        <%= form.file_field :file, class: "form-control", data: { action: "image-preview#preview" }, required: true %>
+                        <div class="invalid-feedback">
+                            Please select an image file.
+                        </div>
+                    </div>
+
+                    <div class="mb-3 text-center">
+                        <%= image_tag "", data: { image_preview_target: "preview" }, class: "img-fluid rounded", style: "max-width: 100%; display: none;" %>
+                    </div>
+
+                    <div class="d-grid">
+                        <%= form.submit "Upload", class: "btn btn-primary btn-lg" %>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

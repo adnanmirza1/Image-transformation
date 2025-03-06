@@ -1,0 +1,49 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="card-title text-center mb-0"><%= @image.name %></h1>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <%= image_tag @image.file_url, class: "img-fluid rounded", style: "max-width: 100%; height: auto;" %>
+                    </div>
+
+                    <h2 class="text-center mb-4">Transformations</h2>
+
+                    <!-- Compression Percentage Slider -->
+                    <div class="mb-4">
+                        <label for="compressionPercentage" class="form-label">Compression Percentage: <span id="compressionValue">80</span>%</label>
+                        <input type="range" class="form-range" id="compressionPercentage" min="1" max="100" value="80">
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <%= link_to "Compress Image", "#", class: "btn btn-primary btn-lg", id: "compressButton" %>
+                        <%= link_to "Convert to PNG", convert_to_png_image_path(@image), class: "btn btn-success btn-lg" %>
+                        <%= link_to "Convert to Black & White", convert_to_bw_image_path(@image), class: "btn btn-dark btn-lg" %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-4">
+        <%= link_to "Back to Upload", new_image_path, class: "btn btn-outline-secondary" %>
+    </div>
+</div>
+
+<script>
+    // Update the displayed compression percentage when the slider changes
+    document.getElementById("compressionPercentage").addEventListener("input", function() {
+        document.getElementById("compressionValue").textContent = this.value;
+    });
+
+    // Update the "Compress Image" link to include the selected compression percentage
+    document.getElementById("compressButton").addEventListener("click", function(event) {
+        const compressionPercentage = document.getElementById("compressionPercentage").value;
+        const compressUrl = `<%= compress_image_path(@image) %>?quality=${compressionPercentage}`;
+        window.location.href = compressUrl;
+    });
+</script>
